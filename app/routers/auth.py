@@ -6,6 +6,8 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from ..db import SessionLocal
 from .. import crud
+from .. import schemas
+
 
 # 1) auth 관련 엔드포인트를 /auth 아래로 묶고, Swagger 문서 정리용 태그 추가
 router = APIRouter(prefix="/auth", tags=["auth"])

@@ -3,10 +3,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from .db import engine, Base
 
-# DB 테이블 생성
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+# 앱 시작 시 한 번만 테이블 생성
+@app.on_event("startup")
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+
 
 # 정적 파일 및 템플릿 디렉터리 연결
 app.mount("/static", StaticFiles(directory="static"), name="static")

@@ -1,0 +1,1 @@
+# "/home" 경로 GET TemplateResponse API 정의하기
