@@ -46,3 +46,28 @@ def login_post(
     # TODO: 세션 생성 또는 JWT 발급 로직 추가
     # POST 이후 확실히 GET으로 전환하기 위해 303 사용
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+
+
+@router.get("/register")
+def register_get(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+
+@router.post("/register")
+def register_post(
+    request: Request,
+    email: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    existing_user = crud.get_user_by_email(db, email=email)
+    if existing_user:
+        return templates.TemplateResponse(
+            "register.html",
+            {"request": request, "error": "이미 존재하는 이메일입니다."}
+        )
+
+    user_create = schemas.UserCreate(email=email, password=password)
+    crud.create_user(db, user_create)
+    return RedirectResponse(url="/auth/login", status_code=status.HTTP_303_SEE_OTHER)
