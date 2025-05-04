@@ -1,0 +1,61 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 | 탄탄대로</title>
+    <style>
+      /* 간단한 스타일, 필요에 따라 static/css/style.css로 분리하세요 */
+      body { font-family: Arial, sans-serif; background: #f5f5f5; }
+      .container { width: 360px; margin: 80px auto; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+      h1 { text-align: center; margin-bottom: 24px; }
+      .field { margin-bottom: 16px; }
+      label { display: block; margin-bottom: 4px; font-weight: bold; }
+      input { width: 100%; padding: 8px; box-sizing: border-box; }
+      .error { color: #d00; margin-bottom: 16px; text-align: center; }
+      button { width: 100%; padding: 10px; background: #38a169; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+      button:hover { background: #2f855a; }
+      .signup { text-align: center; margin-top: 12px; }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h1>로그인</h1>
+
+    {# 서버에서 error 변수를 넘겨주면 표시됩니다 #}
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form action="/login" method="post">
+      <div class="field">
+        <label for="email">이메일</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@domain.com"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="password">비밀번호</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="비밀번호 입력"
+          required
+        >
+      </div>
+
+      <button type="submit">로그인</button>
+    </form>
+
+    <p class="signup">
+      계정이 없으신가요? <a href="/signup">회원가입</a>
+    </p>
+  </div>
+</body>
+</html>
