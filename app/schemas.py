@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 
-class User(BaseModel):
+class User(BaseModel):              #회원가입 응답 모델
     id: int
     email: str
 
@@ -9,11 +9,11 @@ class User(BaseModel):
         orm_mode = True
 
 
-class UserCreate(BaseModel):
+class UserCreate(BaseModel):        #회원가입 요청 모델
     email: EmailStr
     password: str
 
-class Emission(BaseModel):
+class Emission(BaseModel):          # 탄소배출량 응답 모델
     id: int
     user_id: int
     scope: int
@@ -23,7 +23,7 @@ class Emission(BaseModel):
     class Config:
         orm_mode = True
 
-class EmissionCreate(BaseModel):
+class EmissionCreate(BaseModel):    # 탄소배출량 생성 요청 모델
     user_id: int
     scope: int      # 1, 2 또는 3
     amount: float
