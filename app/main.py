@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from .db import engine, Base
-
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 
@@ -16,8 +16,14 @@ def create_tables():
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+
+app.add_middleware(SessionMiddleware, secret_key="super-secret-key")
+
+
 # 라우터 등록
 from .routers import auth, home, report
 app.include_router(auth.router)
 app.include_router(home.router)
 app.include_router(report.router)
+app.include_router(home.router)
+# app.include_router(report.router)

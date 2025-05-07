@@ -1,19 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>회원가입</title>
+  <meta charset="UTF-8">
+  <title>회원가입</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #F9F9F9;
+      font-family: Manuale, sans-serif;
+    }
+
+    .sign-up-page {
+      width: 1440px;
+      height: 1024px;
+      margin: 0 auto;
+      position: relative;
+      background: #F9F9F9;
+      overflow: hidden;
+    }
+
+    .rectangle--1 {
+      width: 243px;
+      height: 68px;
+      left: 88px;
+      top: 48px;
+      position: absolute;
+    }
+
+    .text- {
+      left: 646px;
+      top: 182px;
+      position: absolute;
+      text-align: center;
+    }
+
+    .fspan {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    .line-2 {
+      width: 1322px;
+      height: 0px;
+      left: 59px;
+      top: 132px;
+      position: absolute;
+      border-bottom: 3px solid #379B4E;
+    }
+
+    .form-input {
+      position: absolute;
+      width: 540px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-bottom: 2px solid #379B4E;
+      background: transparent;
+      outline: none;
+      color: #000;
+    }
+
+    .input-id { top: 405px; left: 454px; }
+    .input-pw { top: 550px; left: 454px; }
+    .input-type { top: 695px; left: 454px; }
+
+    ::placeholder {
+      color: #25883C;
+      opacity: 0.6;
+    }
+
+    .rectangle-4 {
+      width: 403px;
+      height: 75px;
+      left: 518px;
+      top: 827px;
+      position: absolute;
+      background: #55A868;
+      border-radius: 45.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .rectangle-4:hover {
+      background-color: #25883C;
+    }
+
+    .f01_span {
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 1.68px;
+    }
+
+    .id, .password, .text-_02 {
+      position: absolute;
+      font-family: Fredoka;
+      font-weight: 500;
+      font-size: 25px;
+      color: #1E622E;
+    }
+
+    .id { left: 454px; top: 371px; }
+    .password { left: 451px; top: 515px; }
+    .text-_02 { left: 454px; top: 661px; }
+
+    .text--_03 {
+      width: 472px;
+      left: 484px;
+      top: 257px;
+      position: absolute;
+      color: black;
+      font-size: 20px;
+      font-weight: 500;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <h2>회원가입</h2>
-    {% if error %}
-        <p style="color:red">{{ error }}</p>
-    {% endif %}
-    <form method="post">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
-        <button type="submit">회원가입</button>
-    </form>
+  <div class="sign-up-page">
+    <img class="rectangle--1" src="a8c1d230-404c-4369-8aaa-cd0cb770a8bb.png" alt="탄탄대로 로고" />
+    <div class="text-"><span class="fspan">회원가입</span></div>
+    <div class="line-2"></div>
+
+    <div class="id">ID</div>
+    <input class="form-input input-id" type="text" name= "email" placeholder="아이디를 입력해주세요" />
+
+    <div class="password">Password</div>
+    <input class="form-input input-pw" type="password" name= "password" placeholder="비밀번호를 입력해주세요" />
+
+    <div class="text-_02">업종</div>
+    <input class="form-input input-type" type="text" name= "industry" placeholder="업종을 입력해주세요" />
+
+    <button class="rectangle-4" type= "submit"><span class="f01_span">회원가입</span></button>
+
+    <div class="text--_03">탄탄대로에 회원가입 후 다양한 서비스를 경험해보세요</div>
+  </div>
 </body>
 </html>

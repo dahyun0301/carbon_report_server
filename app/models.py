@@ -9,6 +9,8 @@ class User(Base):
     email    = Column(String, unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
 
+    emissions = relationship("Emission", back_populates="owner")
+
 class Emission(Base):
     __tablename__ = "emissions"
     id         = Column(Integer, primary_key=True, index=True)
@@ -18,5 +20,4 @@ class Emission(Base):
     timestamp  = Column(DateTime, default=datetime.datetime.astimezone)
 
     owner      = relationship("User", back_populates="emissions")
-
-User.emissions = relationship("Emission", back_populates="owner")
+    
