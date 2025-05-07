@@ -1,61 +1,208 @@
-<!-- templates/login.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>로그인 | 탄탄대로</title>
-    <style>
-      /* 간단한 스타일, 필요에 따라 static/css/style.css로 분리하세요 */
-      body { font-family: Arial, sans-serif; background: #f5f5f5; }
-      .container { width: 360px; margin: 80px auto; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
-      h1 { text-align: center; margin-bottom: 24px; }
-      .field { margin-bottom: 16px; }
-      label { display: block; margin-bottom: 4px; font-weight: bold; }
-      input { width: 100%; padding: 8px; box-sizing: border-box; }
-      .error { color: #d00; margin-bottom: 16px; text-align: center; }
-      button { width: 100%; padding: 10px; background: #38a169; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-      button:hover { background: #2f855a; }
-      .signup { text-align: center; margin-top: 12px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>로그인 | 탄탄대로</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+
+    .login-page {
+      width: 1440px;
+      height: 1024px;
+      margin: 0 auto;
+      position: relative;
+      background: white;
+      overflow: hidden;
+    }
+
+    .rectangle-1 {
+      width: 1545px;
+      height: 1129px;
+      left: -30px;
+      top: -29px;
+      position: absolute;
+      background: #F9F9F9;
+    }
+
+    .rectangle--1 {
+      width: 424px;
+      height: 119px;
+      left: 508px;
+      top: 86px;
+      position: absolute;
+    }
+
+    .line-1 {
+      width: 1331px;
+      height: 0px;
+      left: 54px;
+      top: 241px;
+      position: absolute;
+      outline: 3px #379B4E solid;
+      outline-offset: -1.50px;
+    }
+
+    .text-_01 {
+      left: 647px;
+      top: 285px;
+      position: absolute;
+      text-align: center;
+    }
+
+    .fspan_04 {
+      color: black;
+      font-size: 48px;
+      font-family: Malgun Gothic;
+      font-weight: 700;
+      word-wrap: break-word;
+    }
+
+    .id {
+      left: 454px;
+      top: 409px;
+      position: absolute;
+    }
+
+    .id_span {
+      color: #1E622E;
+      font-size: 25px;
+      font-family: Fredoka;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .password {
+      left: 452px;
+      top: 560px;
+      position: absolute;
+    }
+
+    .password_span {
+      color: #1E622E;
+      font-size: 25px;
+      font-family: Fredoka;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .login-form input {
+      position: absolute;
+      width: 540px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-bottom: 2px solid #379B4E;
+      background: transparent;
+      outline: none;
+      color: #000;
+    }
+
+    .login-form input::placeholder {
+      color: #25883C;
+      opacity: 0.6;
+    }
+
+    .input-email { top: 439px; left: 454px; }
+    .input-password { top: 590px; left: 454px; }
+
+    .real-button {
+      position: absolute;
+      left: 514px;
+      top: 734px;
+      width: 412px;
+      height: 87px;
+      background: #55A868;
+      border: none;
+      border-radius: 45.5px;
+      cursor: pointer;
+      font-size: 32px;
+      color: white;
+      font-family: Inter;
+      font-weight: 500;
+      letter-spacing: 1.6px;
+      text-align: center;
+      transition: background-color 0.3s;
+    }
+
+    .real-button:hover {
+      background-color: #25883C;
+    }
+
+    .text-- {
+      left: 566px;
+      top: 846px;
+      position: absolute;
+      text-align: center;
+    }
+
+    .fspan_01 {
+      color: black;
+      font-size: 24px;
+      font-family: Manuale;
+      font-weight: 400;
+    }
+
+    .text- {
+      width: 129px;
+      height: 44px;
+      left: 757px;
+      top: 846px;
+      position: absolute;
+      text-align: center;
+    }
+
+    .fspan {
+      color: #389B4F;
+      font-size: 24px;
+      font-family: Manuale;
+      font-weight: 400;
+      text-decoration: underline;
+    }
+
+    .error-message {
+      position: absolute;
+      top: 680px;
+      left: 454px;
+      width: 540px;
+      text-align: center;
+      color: #d00;
+      font-size: 18px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>로그인</h1>
+  <div class="login-page">
+    <div class="rectangle-1"></div>
+    <img class="rectangle--1" src="/static/img/logo.png" alt="탄탄대로 로고" />
+    <div class="line-1"></div>
+    <div class="text-_01"><span class="fspan_04">로그인</span></div>
 
-    {# 서버에서 error 변수를 넘겨주면 표시됩니다 #}
-    {% if error %}
-      <div class="error">{{ error }}</div>
-    {% endif %}
+    <form class="login-form" action="/auth/login" method="post">
+      <div class="id"><span class="id_span">ID</span></div>
+      <input class="input-email" type="email" name="email" placeholder="아이디를 입력해주세요" required />
 
-    <form action="/auth/login" method="post">
-      <div class="field">
-        <label for="email">이메일</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="example@domain.com"
-          required
-        >
-      </div>
+      <div class="password"><span class="password_span">Password</span></div>
+      <input class="input-password" type="password" name="password" placeholder="비밀번호를 입력해주세요" required />
 
-      <div class="field">
-        <label for="password">비밀번호</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="비밀번호 입력"
-          required
-        >
-      </div>
+      {% if error %}
+      <div class="error-message">{{ error }}</div>
+      {% endif %}
 
-      <button type="submit">로그인</button>
+      <button class="real-button" type="submit">Login</button>
     </form>
 
-    <p class="signup">
-      계정이 없으신가요? <a href="/auth/register">회원가입</a>
-    </p>
+    <div class="text--"><span class="fspan_01">계정이 없으신가요?</span></div>
+    <div class="text-">
+      <span class="fspan">
+        <a href="/auth/register" style="text-decoration: underline; color: #389B4F;">회원가입</a>
+      </span>
+    </div>
   </div>
 </body>
 </html>
