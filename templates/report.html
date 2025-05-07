@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>리포트 | Carbon Report</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <h1>월별 배출량 리포트</h1>
+  <section>
+    <h2>Scope별 총 배출량</h2>
+    <ul>
+      <li>Scope 1: {{ summary.scope1 }}</li>
+      <li>Scope 2: {{ summary.scope2 }}</li>
+      <li>Scope 3: {{ summary.scope3 }}</li>
+    </ul>
+    <p>거래 적격성: <strong>{{ eligibility }}</strong></p>
+  </section>
+
+  <section>
+    <h2>월별 배출량 변화</h2>
+    <table border="1" cellpadding="6">
+      <thead>
+        <tr><th>Month</th><th>Emissions</th></tr>
+      </thead>
+      <tbody>
+      {% for row in monthly_data %}
+        <tr>
+          <td>{{ row.month }}</td>
+          <td>{{ row.emission }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <p>
+    <a href="/report/pdf">
+      <button type="button">PDF 보고서 다운로드</button>
+    </a>
+  </p>
+</body>
+</html>
