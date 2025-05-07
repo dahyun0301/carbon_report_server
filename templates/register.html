@@ -130,16 +130,21 @@
     <div class="text-"><span class="fspan">회원가입</span></div>
     <div class="line-2"></div>
 
-    <div class="id">ID</div>
-    <input class="form-input input-id" type="text" name= "email" placeholder="아이디를 입력해주세요" />
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
+     <form action="/auth/register" method="post">
+        <div class="id">ID</div>
+        <input class="form-input input-id" type="email" name="email" placeholder="아이디를 입력해주세요" required />
 
-    <div class="password">Password</div>
-    <input class="form-input input-pw" type="password" name= "password" placeholder="비밀번호를 입력해주세요" />
+        <div class="password">Password</div>
+        <input class="form-input input-pw" type="password" name="password" placeholder="비밀번호를 입력해주세요" required />
 
-    <div class="text-_02">업종</div>
-    <input class="form-input input-type" type="text" name= "industry" placeholder="업종을 입력해주세요" />
+        <div class="text-_02">업종</div>
+        <input class="form-input input-type" type="text" name="industry" placeholder="업종을 입력해주세요" />
 
-    <button class="rectangle-4" type= "submit"><span class="f01_span">회원가입</span></button>
+        <button class="rectangle-4" type="submit"><span class="f01_span">회원가입</span></button>
+    </form>
 
     <div class="text--_03">탄탄대로에 회원가입 후 다양한 서비스를 경험해보세요</div>
   </div>
