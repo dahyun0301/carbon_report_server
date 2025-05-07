@@ -12,6 +12,7 @@ class User(BaseModel):              #회원가입 응답 모델
 class UserCreate(BaseModel):        #회원가입 요청 모델
     email: EmailStr
     password: str
+    industry: str
 
 class Emission(BaseModel):          # 탄소배출량 응답 모델
     id: int

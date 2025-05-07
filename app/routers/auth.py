@@ -67,6 +67,7 @@ def register_post(
     request: Request,
     email: str = Form(...),
     password: str = Form(...),
+    industry: str = Form(None),
     db: Session = Depends(get_db)
 ):
     existing_user = crud.get_user_by_email(db, email=email)
@@ -76,6 +77,6 @@ def register_post(
             {"request": request, "error": "이미 존재하는 이메일입니다."}
         )
 
-    user_create = schemas.UserCreate(email=email, password=password)
+    user_create = schemas.UserCreate(email=email, password=password,industry=industry)
     crud.create_user(db, user_create)
     return RedirectResponse(url="/auth/login", status_code=status.HTTP_303_SEE_OTHER)
