@@ -122,6 +122,14 @@
       font-weight: 500;
       text-align: center;
     }
+
+    .error-message {
+      position: absolute;
+      left: 454px;
+      top: 440px; /* input-id 아래에 배치 */
+      font-size: 16px;
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -130,20 +138,21 @@
     <div class="text-"><span class="fspan">회원가입</span></div>
     <div class="line-2"></div>
 
-    {% if error %}
-        <p style="color:red">{{ error }}</p>
-    {% endif %}
-     <form action="/auth/register" method="post">
-        <div class="id">ID</div>
-        <input class="form-input input-id" type="email" name="email" placeholder="아이디를 입력해주세요" required />
+    <form action="/auth/register" method="post">
+      <div class="id">ID</div>
+      <input class="form-input input-id" type="email" name="email" placeholder="아이디를 입력해주세요" required />
 
-        <div class="password">Password</div>
-        <input class="form-input input-pw" type="password" name="password" placeholder="비밀번호를 입력해주세요" required />
+      {% if error %}
+        <p class="error-message">{{ error }}</p>
+      {% endif %}
 
-        <div class="text-_02">업종</div>
-        <input class="form-input input-type" type="text" name="industry" placeholder="업종을 입력해주세요" />
+      <div class="password">Password</div>
+      <input class="form-input input-pw" type="password" name="password" placeholder="비밀번호를 입력해주세요" required />
 
-        <button class="rectangle-4" type="submit"><span class="f01_span">회원가입</span></button>
+      <div class="text-_02">업종</div>
+      <input class="form-input input-type" type="text" name="industry" placeholder="업종을 입력해주세요" />
+
+      <button class="rectangle-4" type="submit"><span class="f01_span">회원가입</span></button>
     </form>
 
     <div class="text--_03">탄탄대로에 회원가입 후 다양한 서비스를 경험해보세요</div>
