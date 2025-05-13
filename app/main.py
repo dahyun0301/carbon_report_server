@@ -13,7 +13,7 @@ def create_tables():
 
 
 # 정적 파일 및 템플릿 디렉터리 연결
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 
