@@ -46,6 +46,7 @@ def login_post(
             }
         )
     request.session["user_id"] = user.id
+    request.session["user_email"] = user.email
 
     # POST 이후 확실히 GET으로 전환하기 위해 303 사용
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
