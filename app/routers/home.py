@@ -10,7 +10,8 @@ templates = Jinja2Templates(directory="templates")
 @router.get("/")
 def home(request: Request):
     user_id = request.session.get("user_id")
+    user_email = request.session.get("user_email")
     if not user_id:
         return RedirectResponse(url="/auth/login")
     
-    return templates.TemplateResponse("home.html", {"request": request, "user_id": user_id})
+    return templates.TemplateResponse("home.html", {"request": request, "user_id": user_id,"user_email": user_email})

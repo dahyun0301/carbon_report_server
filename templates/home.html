@@ -6,19 +6,33 @@
 </head>
 <body>
 
-    <header>
+  
+    <header style="display: flex; justify-content: space-between; align-items: center;">
+       
         <div id="logo">
             <h1>탄탄대로</h1>
         </div>
-        <nav>
-            <ul>
+
+       
+        <nav style="flex: 1; text-align: center;">
+            <ul style="list-style: none; display: inline-flex; gap: 30px; padding: 0; margin: 0;">
                 <li><a href="/input">탄소 배출 입력</a></li>
                 <li><a href="/report">리포트</a></li>
                 <li><a href="/matching">거래 매칭</a></li>
             </ul>
         </nav>
+
+        
+        <div id="login-button" style="margin-right: 20px;">
+            {% if user_email %}
+                <span>{{ user_email }}</span> | <a href="/auth/logout">로그아웃</a>
+            {% else %}
+                <a href="/auth/login">로그인</a>
+            {% endif %}
+        </div>
     </header>
 
+    
     <section id="main-banner">
         <h2>기업의 내일을 위한 환경 전략,<br>탄탄대로가 함께합니다.</h2>
     </section>
@@ -29,22 +43,17 @@
             대기 중 온실가스 농도 증가를 막기 위해 인간 활동에 의한 배출량을 감소시키고,<br>
             흡수량을 증대하여 순배출량이 0이 되는 것을 탄소중립 또는 '넷제로(Net-Zero)'라고 말합니다.
         </p>
-       
     </section>
 
     <section id="esg">
         <h3>ESG경영이 무엇인가요?</h3>
         <p>
             ESG는 환경(Environmental), 사회(Social), 지배구조(Governance)의 영문 첫 글자를 조합한 단어로,
-            기업 경영에서 지속가능성을 달성하기 위한 3가지 핵심 요소입니다. 기업의 지속적인 성장 및 생존과 직결되는 핵심가치들이라고 볼 수 있습니다.
+            기업 경영에서 지속가능성을 달성하기 위한 3가지 핵심 요소입니다.
         </p>
-        
     </section>
 
 
-    <section id="help">
-        <h4>대원에몽 난 여기까지인가 봐 너라면 살릴 수 있을 거야</h4>
-    </section>
 
 </body>
 </html>
