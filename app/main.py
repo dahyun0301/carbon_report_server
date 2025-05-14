@@ -14,14 +14,15 @@ def create_tables():
 
 # 정적 파일 및 템플릿 디렉터리 연결
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 
 app.add_middleware(SessionMiddleware, secret_key="super-secret-key")
 
 
 # 라우터 등록
-from .routers import auth, home, report
+from .routers import auth, home, report, input
 app.include_router(auth.router)
 app.include_router(home.router)
 app.include_router(report.router)
+app.include_router(input.router)
