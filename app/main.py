@@ -24,4 +24,4 @@ app.add_middleware(SessionMiddleware, secret_key="super-secret-key")
 from .routers import auth, home, report
 app.include_router(auth.router)
 app.include_router(home.router)
-# app.include_router(report.router)
+app.include_router(report.router)
