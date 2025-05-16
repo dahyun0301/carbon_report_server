@@ -26,3 +26,4 @@ app.include_router(auth.router)
 app.include_router(home.router)
 app.include_router(report.router)
 app.include_router(input.router)
+
