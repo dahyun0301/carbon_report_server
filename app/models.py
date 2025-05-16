@@ -21,4 +21,14 @@ class Emission(Base):
     timestamp  = Column(DateTime, default=datetime.datetime.astimezone)
 
     owner      = relationship("User", back_populates="emissions")
-    
+
+class EmissionRecord(Base):
+    __tablename__ = "emission_records"
+
+    id               = Column(Integer, primary_key=True, index=True)
+    month            = Column(String, nullable=False)
+    electricity      = Column(Float, nullable=False)
+    gasoline         = Column(Float, nullable=False)
+    natural_gas      = Column(Float, nullable=False)
+    district_heating = Column(Float, nullable=False)
+    total_emission   = Column(Float, nullable=False)    
