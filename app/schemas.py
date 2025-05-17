@@ -29,7 +29,20 @@ class EmissionCreate(BaseModel):    # 탄소배출량 생성 요청 모델
     scope: int      # 1, 2 또는 3
     amount: float
 
+class EmissionResponse(BaseModel):
+    company: str
+    month: str
+    electricity: float
+    gasoline: float
+    natural_gas: float
+    district_heating: float
+    total_emission: float
 
+class ReportInfoBase(BaseModel):
+    company: str
+    start_month: str
+    end_month: str
+    allowance: float
 
 
 
