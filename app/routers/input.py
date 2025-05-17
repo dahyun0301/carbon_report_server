@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 def get_db():
     db = SessionLocal()

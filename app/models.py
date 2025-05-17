@@ -22,6 +22,7 @@ class Emission(Base):
 
     owner      = relationship("User", back_populates="emissions")
 
+
 class EmissionRecord(Base):
     __tablename__ = "emission_records"
 

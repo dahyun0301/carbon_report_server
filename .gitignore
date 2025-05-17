@@ -207,3 +207,8 @@ pip-selfcheck.json
 # End of https://www.toptal.com/developers/gitignore/api/python,venv,visualstudiocode
 
 app.db
+
+# 가상환경
+venv/
+# PDF 등 정적 출력물
+static/*.pdf
