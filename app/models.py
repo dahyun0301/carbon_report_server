@@ -22,3 +22,22 @@ class Emission(Base):
 
     owner      = relationship("User", back_populates="emissions")
     
+class EmissionRecord(Base):
+    __tablename__ = "emission_records"
+
+    id = Column(Integer, primary_key=True, index=True)
+    company = Column(String, nullable=False)
+    month = Column(String, index=True)
+    electricity = Column(Float)
+    gasoline = Column(Float)
+    natural_gas = Column(Float)
+    district_heating = Column(Float)
+    total_emission = Column(Float)
+
+class ReportInfo(Base):
+    __tablename__ = "report_info"
+    id = Column(Integer, primary_key=True, index=True)
+    company = Column(String)
+    start_month = Column(String)
+    end_month = Column(String)
+    allowance = Column(Float)
