@@ -55,9 +55,12 @@ def report_download(db: Session = Depends(get_db)):
     return FileResponse(PDF_PATH, media_type="application/pdf", filename="carbon_report.pdf")
 
 @router.get("/generate-report")
-def generate_pdf_report(db: Session = Depends(get_db)):
+def generate_pdf_report(request: Request,db: Session = Depends(get_db)):
+    user_id = request.session.get("user_id")
+    
     info = db.query(ReportInfo).first()
     records = db.query(EmissionRecord).filter(
+        EmissionRecord.user_id == user_id,
         EmissionRecord.month >= info.start_month,
         EmissionRecord.month <= info.end_month
     ).order_by(EmissionRecord.month).all()
