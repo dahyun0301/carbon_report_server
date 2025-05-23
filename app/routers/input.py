@@ -33,6 +33,9 @@ async def input_excel(
     allowance: float = Form(...),
     db: Session = Depends(get_db)
 ):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
     
     contents = await file.read()
     df = pd.read_excel(BytesIO(contents))
@@ -58,6 +61,7 @@ async def input_excel(
         )
 
         record = EmissionRecord(
+            user_id=user_id,
             company=company,
             month=month,
             electricity=row["electricity"],
@@ -69,6 +73,7 @@ async def input_excel(
         db.add(record)
     
     db.add(ReportInfo(
+        user_id=user_id,
         company=company,
         start_month=start_month,
         end_month=end_month,

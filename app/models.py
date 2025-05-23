@@ -27,6 +27,7 @@ class EmissionRecord(Base):
     __tablename__ = "emission_records"
 
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
     company = Column(String, nullable=False)
     month = Column(String, index=True)
     electricity = Column(Float)
@@ -35,10 +36,14 @@ class EmissionRecord(Base):
     district_heating = Column(Float)
     total_emission = Column(Float)   
     
+    owner = relationship("User")
+    
 class ReportInfo(Base):
     __tablename__ = "report_info"
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
     company = Column(String)
     start_month = Column(String)
     end_month = Column(String)
     allowance = Column(Float)
+    owner = relationship("User")
