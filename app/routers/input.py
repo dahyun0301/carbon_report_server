@@ -74,6 +74,7 @@ async def input_excel(
         end_month=end_month,
         allowance=allowance
     ))
+    
     db.commit()
 
     # 필터링 및 결과 전송
@@ -107,5 +108,7 @@ async def input_excel(
         "company": company,
         "allowance": allowance
     })
+
+
     
     
