@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>탄소 배출권 매칭</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background-color: #e0f7e9;
+            border-left: 6px solid #28a745;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .info-box p {
+            margin: 6px 0;
+            font-size: 18px;
+        }
+
+        .company-lists {
+            display: flex;
+            gap: 20px;
+        }
+
+        .list-section {
+            flex: 1;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .list-section h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .company-card {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .company-card:last-child {
+            border-bottom: none;
+        }
+
+        .company-card p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>탄소 배출권 거래 매칭</h1>
+
+    <div class="info-box">
+        <p><strong>회사명:</strong> {{ user_company }}</p>
+        <p><strong>업종:</strong> {{ user_industry }}</p>
+        <p><strong>{{ status }}:</strong> {{ status_value }} kgCO₂</p>
+    </div>
+
+    <div class="company-lists">
+        <div class="list-section">
+            <h2>배출량 초과 기업</h2>
+            {% for c in excess_companies %}
+                <div class="company-card">
+                    <p><strong>회사:</strong> {{ c.company }}</p>
+                    <p><strong>업종:</strong> {{ c.industry }}</p>
+                    <p><strong>이메일:</strong> {{ c.email }}</p>
+                    <p><strong>초과량:</strong> {{ c.difference | abs }} kgCO₂</p>
+                </div>
+            {% else %}
+                <p>해당 없음</p>
+            {% endfor %}
+        </div>
+
+        <div class="list-section">
+            <h2>배출권 여유 기업</h2>
+            {% for c in remaining_companies %}
+                <div class="company-card">
+                    <p><strong>회사:</strong> {{ c.company }}</p>
+                    <p><strong>업종:</strong> {{ c.industry }}</p>
+                    <p><strong>이메일:</strong> {{ c.email }}</p>
+                    <p><strong>여유량:</strong> {{ c.difference }} kgCO₂</p>
+                </div>
+            {% else %}
+                <p>해당 없음</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

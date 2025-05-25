@@ -21,9 +21,10 @@ app.add_middleware(SessionMiddleware, secret_key="super-secret-key")
 
 
 # 라우터 등록
-from .routers import auth, home, report, input
+from .routers import auth, home, report, input, match
 app.include_router(auth.router)
 app.include_router(home.router)
 app.include_router(report.router)
 app.include_router(input.router)
+app.include_router(match.router)
 

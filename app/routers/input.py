@@ -47,8 +47,8 @@ async def input_excel(
         "district_heating (GJ)": "district_heating"
     }, inplace=True)
 
-    db.query(EmissionRecord).delete()
-    db.query(ReportInfo).delete()
+    db.query(EmissionRecord).filter(EmissionRecord.user_id == user_id).delete()
+    db.query(ReportInfo).filter(ReportInfo.user_id == user_id).delete()
     db.commit()
 
     for _, row in df.iterrows():
