@@ -52,7 +52,7 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     if not user_id:
         raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
 
-    info = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).first()
+    info = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).order_by(ReportInfo.id.desc()).first()
     if not info:
         raise HTTPException(status_code=404, detail="사용자의 보고서 정보가 없습니다.")
 
@@ -121,8 +121,10 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     return {"message": "PDF generated successfully"}
 
 def generate_total_graph(months, emissions):
+    x = range(len(months))
     plt.figure(figsize=(6, 3))
     plt.bar(months, emissions, color='skyblue')
+    plt.xticks(x, months, rotation=45, ha='right', fontsize=8)
     plt.xlabel('Date')
     plt.ylabel('Emissions (kgCO₂)')
     plt.title('Total Emissions')
@@ -136,7 +138,7 @@ def generate_scope_graph(months, scope1_list, scope2_list):
     plt.figure(figsize=(6, 3))
     plt.bar([i - width/2 for i in x], scope1_list, width=width, label='Scope 1', color='orange')
     plt.bar([i + width/2 for i in x], scope2_list, width=width, label='Scope 2', color='green')
-    plt.xticks(x, months)
+    plt.xticks(x, months, rotation=45, ha='right', fontsize=8)
     plt.xlabel('Date')
     plt.ylabel('Emissions (kgCO₂)')
     plt.title('Scope 1 & 2 Emissions')

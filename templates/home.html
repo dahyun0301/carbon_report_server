@@ -278,22 +278,20 @@
         color: #25883c;
     }
 
+     
   </style>
 </head>
 <body>
   <div class="mainhome-login-page">
     <div class="mainhome-login-page-child"></div>
 
-    <!-- 로고 클릭 시 홈으로 이동 -->
+     <!-- 로고 항상 홈으로 이동 -->
     <a href="/">
-      <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로 로고.PNG">
+      <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로로고.png">
     </a>
-
     <div class="mainhome-login-page-item"></div>
-
     <a href="/input" class="btn btn-carbon">탄소 배출 입력</a>
-    <a href="/matching" class="btn btn-trade">거래 매칭</a>
-
+    <a href="/match" class="btn btn-trade">거래 매칭</a>
     <div class="login-area">
       {% if user_email %}
         <span class="user-email">{{ user_email }}</span>
@@ -302,7 +300,6 @@
         <a href="/auth/login" class="login-btn">로그인</a>
       {% endif %}
     </div>
-
     <img class="image-3-icon" alt="" src="/static/img/배너이미지.png">
     <i class="i">
       <p>기업의 내일을 위한 환경 전략,</p>
@@ -330,4 +327,3 @@
   </div>
 </body>
 </html>
-
