@@ -318,30 +318,24 @@
         });
 
 
-        function generateReportAndRedirect() {
-            fetch("/generate-report")
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("보고서 생성 실패");
-                    }
-                    window.location.href = "/report";
-                })
-                .catch(error => {
-                    alert("보고서 생성 중 오류 발생: " + error);
-                });
+    async function generateReportAndRedirect() {
+    try {
+        const res = await fetch('/report/generate', { credentials: 'same-origin' });
+        if (res.ok) {
+        window.location.href = '/report/view';
         }
+        // 오류여도 아무 창을 띄우지 않습니다.
+    } catch (err) {
+        console.error('PDF 생성 오류:', err);
+    }
+    }
     </script>
 
   <div class="report-button">
     <button type="button" onclick="generateReportAndRedirect()">📄 보고서 보기</button> 
   </div>
 
-
-
   {% endif %}
-
-
-
 
 </body>
 </html>
