@@ -47,9 +47,8 @@ async def input_excel(
         "district_heating (GJ)": "district_heating"
     }, inplace=True)
 
-    # db.query(EmissionRecord).filter(EmissionRecord.user_id == user_id).delete()
-    # db.query(ReportInfo).filter(ReportInfo.user_id == user_id).delete()
-    # db.commit()
+    existing_records = db.query(EmissionRecord).filter(EmissionRecord.user_id == user_id).all()
+    existing_map = {(r.month, r.company): r for r in existing_records}
 
     for _, row in df.iterrows():
         month = str(row["month"])[:7]
@@ -60,18 +59,33 @@ async def input_excel(
             row["district_heating"] * 110, 2
         )
 
-        record = EmissionRecord(
-            user_id=user_id,
-            company=company,
-            month=month,
-            electricity=row["electricity"],
-            gasoline=row["gasoline"],
-            natural_gas=row["natural_gas"],
-            district_heating=row["district_heating"],
-            total_emission=total_emission
-        )
-        db.add(record)
-    
+        key = (month, company)
+        should_save = True
+
+        if key in existing_map:
+            record = existing_map[key]
+            if (
+                round(record.electricity, 2) == round(row["electricity"], 2) and
+                round(record.gasoline, 2) == round(row["gasoline"], 2) and
+                round(record.natural_gas, 2) == round(row["natural_gas"], 2) and
+                round(record.district_heating, 2) == round(row["district_heating"], 2)
+            ):
+                should_save = False
+            else:
+                db.delete(record)
+
+        if should_save:
+            db.add(EmissionRecord(
+                user_id=user_id,
+                company=company,
+                month=month,
+                electricity=row["electricity"],
+                gasoline=row["gasoline"],
+                natural_gas=row["natural_gas"],
+                district_heating=row["district_heating"],
+                total_emission=total_emission
+            ))
+
     db.add(ReportInfo(
         user_id=user_id,
         company=company,
@@ -84,6 +98,7 @@ async def input_excel(
 
     # 필터링 및 결과 전송
     filtered = db.query(EmissionRecord).filter(
+        EmissionRecord.user_id == user_id,
         EmissionRecord.month >= start_month,
         EmissionRecord.month <= end_month
     ).order_by(EmissionRecord.month).all()
@@ -113,7 +128,3 @@ async def input_excel(
         "company": company,
         "allowance": allowance
     })
-
-
-    
-    

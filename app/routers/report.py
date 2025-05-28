@@ -121,8 +121,10 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     return {"message": "PDF generated successfully"}
 
 def generate_total_graph(months, emissions):
+    x = range(len(months))
     plt.figure(figsize=(6, 3))
     plt.bar(months, emissions, color='skyblue')
+    plt.xticks(x, months, rotation=45, ha='right', fontsize=8)
     plt.xlabel('Date')
     plt.ylabel('Emissions (kgCO₂)')
     plt.title('Total Emissions')
@@ -136,7 +138,7 @@ def generate_scope_graph(months, scope1_list, scope2_list):
     plt.figure(figsize=(6, 3))
     plt.bar([i - width/2 for i in x], scope1_list, width=width, label='Scope 1', color='orange')
     plt.bar([i + width/2 for i in x], scope2_list, width=width, label='Scope 2', color='green')
-    plt.xticks(x, months)
+    plt.xticks(x, months, rotation=45, ha='right', fontsize=8)
     plt.xlabel('Date')
     plt.ylabel('Emissions (kgCO₂)')
     plt.title('Scope 1 & 2 Emissions')
