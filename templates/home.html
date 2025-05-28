@@ -284,12 +284,20 @@
 <body>
   <div class="mainhome-login-page">
     <div class="mainhome-login-page-child"></div>
-    <img class="icon" alt="" src="/static/img/탄탄대로 로고.PNG">
+     <!-- 로고 클릭시 홈 이동 (로그인/회원가입 제외) -->
+    {% if request.url.path != "/auth/login" and request.url.path != "/auth/signup" %}
+      <a href="/">
+        <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로 로고.PNG">
+      </a>
+    {% else %}
+      <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로 로고.PNG">
+    {% endif %}
+
     <div class="mainhome-login-page-item"></div>
+
     <a href="/input" class="btn btn-carbon">탄소 배출 입력</a>
     <a href="/matching" class="btn btn-trade">거래 매칭</a>
 
-   
     <div class="login-area">
       {% if user_email %}
         <span class="user-email">{{ user_email }}</span>
@@ -326,4 +334,3 @@
   </div>
 </body>
 </html>
-
