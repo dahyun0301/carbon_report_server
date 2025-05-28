@@ -21,7 +21,11 @@ def get_db():
 
 @router.get("/input", response_class=HTMLResponse)
 def input_page(request: Request):
-    return templates.TemplateResponse("input.html", {"request": request})
+    user_email = request.session.get("user_email")
+    return templates.TemplateResponse("input.html", {
+        "request": request,
+        "user_email": user_email
+    })
 
 @router.post("/input-excel", response_class=HTMLResponse)
 async def input_excel(
@@ -105,9 +109,10 @@ async def input_excel(
                 "scope1": round(r.gasoline * 2.31 + r.natural_gas * 0.203, 2),
                 "scope2": round(r.electricity * 0.417 + r.district_heating * 110, 2)
             })
-
+    user_email = request.session.get("user_email")
     return templates.TemplateResponse("input.html", {
         "request": request,
+        "user_email": user_email,
         "results": json.dumps(results, default=str),
         "scopes": json.dumps(scopes, default=str),
         "company": company,
