@@ -74,7 +74,6 @@
     .btn-carbon { left: calc(50% - 400px); }
     .btn-trade { left: calc(50% + 250px); }
 
-    /* ✅ 로그인 영역 */
     .login-area {
       position: absolute;
       top: 65px;
@@ -91,8 +90,8 @@
     }
 
     .login-btn {
-      font-family: 'Noto Sans KR', sans-serif;  
-      font-weight: 500;                         
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
       font-size: 18px;
       padding: 8px 16px;
       border: 2px solid #25883c;
@@ -271,12 +270,12 @@
     }
 
     a.btn {
-        color: #000;              
-        text-decoration: none;    
+        color: #000;
+        text-decoration: none;
     }
 
     a.btn:hover {
-        color: #25883c;          
+        color: #25883c;
     }
 
   </style>
@@ -284,14 +283,11 @@
 <body>
   <div class="mainhome-login-page">
     <div class="mainhome-login-page-child"></div>
-     <!-- 로고 클릭시 홈 이동 (로그인/회원가입 제외) -->
-    {% if request.url.path != "/auth/login" and request.url.path != "/auth/signup" %}
-      <a href="/">
-        <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로 로고.PNG">
-      </a>
-    {% else %}
+
+    <!-- 로고 클릭 시 홈으로 이동 -->
+    <a href="/">
       <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로 로고.PNG">
-    {% endif %}
+    </a>
 
     <div class="mainhome-login-page-item"></div>
 
@@ -334,3 +330,4 @@
   </div>
 </body>
 </html>
+
