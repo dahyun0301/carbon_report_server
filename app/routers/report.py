@@ -52,7 +52,7 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     if not user_id:
         raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
 
-    info = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).first()
+    info = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).order_by(ReportInfo.id.desc()).first()
     if not info:
         raise HTTPException(status_code=404, detail="사용자의 보고서 정보가 없습니다.")
 
