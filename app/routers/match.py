@@ -22,7 +22,7 @@ def match_page(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
 
     user = db.query(User).filter(User.id == user_id).first()
-    report = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).first()
+    report = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).order_by(ReportInfo.id.desc()).first()
     if not report:
         raise HTTPException(status_code=404, detail="보고서 정보가 없습니다.")
 
