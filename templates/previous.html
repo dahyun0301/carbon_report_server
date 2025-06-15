@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>기존 기록 조회 및 분석</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding-top: 140px; /* 네비게이션 바 공간 확보 */
+      background-color: #f9f9f9;
+    }
+
+    /* ✅ 네비게이션 바 스타일 */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background-color: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      z-index: 1000;
+    }
+    .navbar .logo {
+      height: 62px;
+    }
+    .navbar .center-menu {
+      display: flex;
+      gap: 160px;
+      justify-content: center;
+      flex: 1;
+    }
+    .navbar .center-menu a {
+      text-decoration: none;
+      color: #000;
+      font-size: 20px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .navbar .center-menu a:hover {
+      color: #25883c;
+    }
+    .navbar .left, .navbar .right {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .login-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+    }
+    .navbar .user-email {
+      color: #000;
+    }
+    .navbar .login-btn {
+      font-weight: 500;
+      font-size: 18px;
+      padding: 8px 16px;
+      border: 2px solid #25883c;
+      border-radius: 30px;
+      background-color: white;
+      color: #25883c;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .navbar .login-btn:hover {
+      background-color: #25883c;
+      color: white;
+    }
+    .navbar-underline {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #25883c;
+    }
+
+    h1 {
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 0 auto 40px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #000000;
+    }
+    input[type="month"],
+    input[type="number"] {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #25883c;
+      color: white;
+      padding: 10px 36px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin: 0 auto;
+    }
+    button:hover {
+      background-color: #219150;
+    }
+    .charts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    canvas {
+      background: #ffffff;
+      border: 1px solid #e1e1e1;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .report-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .report-button form {
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      max-width: none;
+    }
+    .date-range {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+    }
+    .date-range input[type="month"] {
+      flex: 1;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      font-size: 1rem;
+      background-color: #f4f4f4;
+      color: #000;
+    }
+    .error {
+      text-align: center;
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ 네비게이션 바 -->
+  <div class="navbar">
+    <div class="left">
+      <img src="/static/img/탄탄대로 로고.PNG" alt= "로고" class="logo" />
+    </div>
+
+    <div class="center-menu">
+      <a href="/input">탄소 배출 입력</a>
+      <a href="/previous">기록 조회</a>
+      <a href="/matching">거래 매칭</a>
+    </div>
+
+    <div class="right login-area">
+      {% if user_email %}
+        <span class="user-email">{{ user_email }}</span>
+        <a href="/auth/logout" class="login-btn">로그아웃</a>
+      {% else %}
+        <a href="/auth/login" class="login-btn">로그인</a>
+      {% endif %}
+    </div>
+
+    <div class="navbar-underline"></div>
+  </div>
+
+  <h1>이전 기록 기반 탄소 배출 분석</h1>
+
+  <form action="/previous" method="post">
+    <label>분석 기간</label>
+    <div class="date-range">
+      <input type="month" name="start_month" required>
+      <input type="month" name="end_month" required>
+    </div>
+
+    <label>배출권 허용량 (kgCO₂)</label>
+    <input type="number" name="allowance" step="0.01" required>
+
+    <button type="submit">조회 및 분석</button>
+  </form>
+
+  {% if error %}
+    <p class="error">{{ error }}</p>
+  {% endif %}
+
+  {% if results and scopes %}
+  <div class="charts">
+    <canvas id="combinedChart" width="400" height="300"></canvas>
+    <canvas id="scopeChart" width="400" height="300"></canvas>
+  </div>
+
+  <script>
+    const results = {{ results | safe }};
+    const scopes = {{ scopes | safe }};
+    const labels = results.map(r => r.month);
+
+    new Chart(document.getElementById("combinedChart"), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: '전기', data: results.map(r => r.electricity) },
+          { label: '휘발유', data: results.map(r => r.gasoline) },
+          { label: '천연가스', data: results.map(r => r.natural_gas) },
+          { label: '지역난방', data: results.map(r => r.district_heating) },
+          {
+            type: 'line',
+            label: '총배출량',
+            data: results.map(r => r.total_emission),
+            borderColor: 'black',
+            tension: 0.3,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    new Chart(document.getElementById("scopeChart"), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Scope 1',
+            data: scopes.map(s => s.scope1),
+            backgroundColor: 'rgba(255,99,132,0.7)'
+          },
+          {
+            label: 'Scope 2',
+            data: scopes.map(s => s.scope2),
+            backgroundColor: 'rgba(54,162,235,0.7)'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    async function generateReportAndRedirect() {
+      try {
+        const res = await fetch('/report/generate', { credentials: 'same-origin' });
+        if (res.ok) {
+          window.location.href = '/report/view';
+        }
+      } catch (err) {
+        console.error('리포트 생성 실패:', err);
+      }
+    }
+  </script>
+
+  <div class="report-button">
+    <button type="button" onclick="generateReportAndRedirect()">📄 보고서 보기</button>
+  </div>
+  {% endif %}
+
+</body>
+</html>

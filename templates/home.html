@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- 폰트 링크 -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;1,600&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #f9f9f9;
+      font-family: Inter, sans-serif;
+      width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .mainhome-login-page {
+      width: 100%;
+      min-width: 1440px;
+      position: relative;
+      background-color: #f9f9f9;
+      height: 2100px;
+      overflow: hidden;
+      text-align: left;
+      font-size: 24px;
+      color: #000;
+    }
+
+    .mainhome-login-page-child {
+      position: absolute;
+      top: 1092px;
+      left: 0;
+      background-color: #f3f3f3;
+      width: 100%;
+      height: 546px;
+    }
+
+    .icon {
+      position: absolute;
+      top: 54px;
+      left: 88px;
+      width: 220.1px;
+      height: 62px;
+      object-fit: cover;
+    }
+
+    .mainhome-login-page-item {
+      position: absolute;
+      top: 126.5px;
+      left: 52.5px;
+      border-top: 3px solid #25883c;
+      width: calc(100% - 105px);
+    }
+
+    .btn {
+      position: absolute;
+      top: 158px;
+      padding: 8px 20px;
+      border: none;
+      background-color: transparent;
+      font-family: 'Noto Sans KR';
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .btn:hover { color: #25883c; }
+    .btn-carbon { left: calc(50% - 400px); }
+    .btn-previous { left: calc(50% - 75px); }
+    .btn-trade { left: calc(50% + 250px); }
+
+    .login-area {
+      position: absolute;
+      top: 65px;
+      right: 88px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+    }
+
+    .user-email {
+      color: #000;
+      font-family: 'Inria Sans', sans-serif;
+    }
+
+    .login-btn {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      padding: 8px 16px;
+      border: 2px solid #25883c;
+      border-radius: 30px;
+      background-color: white;
+      color: #25883c;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .login-btn:hover {
+      background-color: #25883c;
+      color: white;
+    }
+
+    .image-3-icon {
+      position: absolute;
+      top: 227px;
+      left: 0;
+      width: 100%;
+      height: 517px;
+      object-fit: cover;
+      opacity: 0.45;
+    }
+
+    .i {
+      position: absolute;
+      top: 408px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 48px;
+      font-style: italic;
+      line-height: 150%;
+      text-align: center;
+      color: #111;
+      font-weight: bold;
+    }
+
+    .b { line-height: 145.47%; }
+
+    .div3 {
+      position: absolute;
+      top: 798px;
+      left: 97px;
+      font-size: 50px;
+      display: inline-block;
+      width: 390px;
+      height: 74px;
+      font-family: 'Kaisei Decol';
+    }
+
+    .span { color: #000; }
+    .span1 { color: #25883c; }
+
+    .esg {
+      position: absolute;
+      top: 1235px;
+      left: 713px;
+      font-size: 50px;
+      line-height: 145.47%;
+      display: inline-block;
+      font-family: 'Kaisei Decol';
+      width: 547px;
+      height: 74px;
+      color: #25883c;
+    }
+
+    .div4 {
+      position: absolute;
+      top: 979px;
+      left: 1162px;
+      font-size: 20px;
+      line-height: 121.58%;
+      opacity: 0.54;
+    }
+
+    .esg1 {
+      position: absolute;
+      top: 1530px;
+      left: 1238px;
+      font-size: 20px;
+      line-height: 121.58%;
+      display: inline-block;
+      width: 137px;
+      opacity: 0.54;
+    }
+
+    .net-zero {
+      position: absolute;
+      top: 905px;
+      left: 97px;
+      line-height: 140%;
+      display: inline-block;
+      width: 1276px;
+      height: 91px;
+    }
+
+    .esg-environmentalsoci {
+      position: absolute;
+      top: 1346px;
+      left: 715px;
+      line-height: 150%;
+      display: inline-block;
+      width: 659px;
+      height: 141px;
+      color: #25883c;
+    }
+
+    .image-5-icon, .image-6-icon, .acccf7358dde14cc1e46d20f0bfe02-icon {
+      position: absolute;
+      object-fit: cover;
+    }
+
+    .image-5-icon {
+      top: 1140px;
+      left: 136px;
+      border-radius: 245.5px;
+      width: 163.6px;
+      height: 164px;
+    }
+
+    .image-6-icon {
+      top: 1206px;
+      left: 283px;
+      border-radius: 160px;
+      width: 325px;
+      height: 325px;
+    }
+
+    .acccf7358dde14cc1e46d20f0bfe02-icon {
+      top: 1390px;
+      left: 66px;
+      border-radius: 134px;
+      width: 183px;
+      height: 183px;
+    }
+
+    .e, .s, .g {
+      position: absolute;
+      font-family: 'Kaisei Decol';
+      color: #fff;
+    }
+
+    .e {
+      top: 1162px;
+      left: 135px;
+      font-size: 96px;
+      line-height: 145.47%;
+      width: 66px;
+    }
+
+    .s {
+      top: 1343px;
+      left: 495px;
+      font-size: 128px;
+      line-height: 145.47%;
+      width: 78px;
+      height: 157px;
+    }
+
+    .g {
+      top: 1442px;
+      left: 73px;
+      font-size: 96px;
+      line-height: 145.47%;
+      width: 77px;
+    }
+
+    .footer-line {
+      position: absolute;
+      bottom: 0;
+      left: 52.5px;
+      width: calc(100% - 105px);
+      height: 3px;
+      background-color: #25883c;
+    }
+
+    a.btn {
+        color: #000;
+        text-decoration: none;
+    }
+
+    a.btn:hover {
+        color: #25883c;
+    }
+
+     
+  </style>
+</head>
+<body>
+  <div class="mainhome-login-page">
+    <div class="mainhome-login-page-child"></div>
+
+     <!-- 로고 항상 홈으로 이동 -->
+    <a href="/">
+      <img class="icon" alt="탄탄대로 로고" src="/static/img/탄탄대로 로고.PNG">
+    </a>
+    <div class="mainhome-login-page-item"></div>
+    <a href="/input" class="btn btn-carbon">탄소 배출 입력</a>
+    <a href="/previous" class="btn btn-previous">이전 기록 조회</a>
+    <a href="/matching" class="btn btn-trade">거래 매칭</a>
+    <div class="login-area">
+      {% if user_email %}
+        <span class="user-email">{{ user_email }}</span>
+        <a href="/auth/logout" class="login-btn">로그아웃</a>
+      {% else %}
+        <a href="/auth/login" class="login-btn">로그인</a>
+      {% endif %}
+    </div>
+    <img class="image-3-icon" alt="" src="/static/img/배너이미지.png">
+    <i class="i">
+      <p>기업의 내일을 위한 환경 전략,</p>
+      <p>탄탄대로가 함께합니다.</p>
+    </i>
+    <div class="div3"><b class="b">탄소중립이란?</b></div>
+    <b class="esg"><span>ESG경영</span><span class="span">이 무엇인가요?</span></b>
+    <div class="div4">-출처: 탄소중립 정책포털</div>
+    <div class="esg1">-출처: ESG포털</div>
+    <div class="net-zero">
+      <p>대기 중 온실가스 농도 증가를 막기 위해 인간 활동에 의한 배출량을 감소시키고,</p>
+      <p><span>흡수량을 증대하여 </span><span class="span1">순배출량이 ‘0’이 되는 것</span><span class="span">을 탄소중립 혹은 ‘넷제로(Net-Zero)’라고 말합니다.</span></p>
+    </div>
+    <div class="esg-environmentalsoci">
+      <span>ESG는 환경(Environmental), 사회(Social), 지배구조(Governance)의 영문 첫 글자</span>
+      <span class="span">를 조합한 단어로, 기업 경영에서 지속가능성을 달성하기 위한 3가지 핵심 요소입니다. 기업의 지속적인 성장 및 생존과 직결되는 핵심 가치들이라고 볼 수 있습니다.</span>
+    </div>
+    <img class="image-5-icon" alt="" src="/static/img/E이미지.png">
+    <img class="image-6-icon" alt="" src="/static/img/S이미지.png">
+    <img class="acccf7358dde14cc1e46d20f0bfe02-icon" alt="" src="/static/img/G이미지.png">
+    <b class="e">E</b>
+    <b class="s">S</b>
+    <b class="g">G</b>
+    <div class="footer-line"></div>
+  </div>
+</body>
+</html>

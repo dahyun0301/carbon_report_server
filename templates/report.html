@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>탄소 배출 보고서</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; /* max-width: 900px; */ margin: auto; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    iframe { width:100%; height:80vh; border: 1px solid #ccc; }
+    .button-area { text-align: center; margin-top: 20px; }
+    .button-area a.download-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .button-area a.download-btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>탄소 배출 보고서</h1>
+
+  <iframe src="/report/preview#zoom=page-width" frameborder="0"></iframe>
+
+  <div class="button-area">
+    <a href="/report/download" download class="download-btn">📥 PDF로 다운로드</a>
+  </div>
+</body>
+</html>
