@@ -18,6 +18,8 @@ def get_db():
 @router.get("/matching")
 def match_page(request: Request, db: Session = Depends(get_db)):
     user_id = request.session.get("user_id")
+    user_email = request.session.get("user_email")
+
     if not user_id:
 
         return RedirectResponse(url="/auth/login", status_code=303)
@@ -81,6 +83,7 @@ def match_page(request: Request, db: Session = Depends(get_db)):
 
     return templates.TemplateResponse("match.html", {
         "request": request,
+        "user_email": user_email,
         "user_company": company_name,
         "user_industry": user.industry,
         "status": status,
