@@ -1,5 +1,6 @@
 # app/routers/match.py
 from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
@@ -19,7 +20,7 @@ def get_db():
 def match_page(request: Request, db: Session = Depends(get_db)):
     user_id = request.session.get("user_id")
     if not user_id:
-        raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
+        return RedirectResponse(url="/auth/login", status_code=303)
 
     user = db.query(User).filter(User.id == user_id).first()
     report = db.query(ReportInfo).filter(ReportInfo.user_id == user_id).order_by(ReportInfo.id.desc()).first()
