@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Form, Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
@@ -35,7 +35,7 @@ def run_previous_analysis(
     user_id = request.session.get("user_id")
     user_email = request.session.get("user_email")
     if not user_id:
-        raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
+        return RedirectResponse(url="/auth/login", status_code=303)
 
     # 최신 보고서에 빈 company 저장
     db.add(ReportInfo(
