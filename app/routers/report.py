@@ -119,7 +119,7 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
         ],
         temperature=0.7
     )
-    feedback_text = res.choices[0].message.content.strip()
+    feedback = res.choices[0].message.content.strip()
 
     # PDF 작성
     c = canvas.Canvas(PDF_PATH, pagesize=A4)
