@@ -3,9 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <title>탄소 배출 보고서</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: sans-serif; padding: 40px; /* max-width: 900px; */ margin: auto; }
-    h1 { text-align: center; margin-bottom: 20px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding-top: 140px; /* 네비게이션 바 공간 확보 */
+      background-color: #f9f9f9;
+    }
+    /* 네비게이션 바 스타일 */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background-color: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      z-index: 1000;
+    }
+    .navbar .logo { height: 62px; }
+    .navbar .center-menu {
+      display: flex;
+      gap: 160px;
+      justify-content: center;
+      flex: 1;
+    }
+    .navbar .center-menu a {
+      text-decoration: none;
+      color: #000;
+      font-size: 20px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .navbar .center-menu a:hover { color: #25883c; }
+    .navbar .left, .navbar .right { display: flex; align-items: center; }
+    .navbar .login-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+    }
+    .navbar .user-email { color: #000; }
+    .navbar .login-btn {
+      font-weight: 500;
+      font-size: 18px;
+      padding: 8px 16px;
+      border: 2px solid #25883c;
+      border-radius: 30px;
+      background-color: white;
+      color: #25883c;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .navbar .login-btn:hover {
+      background-color: #25883c;
+      color: white;
+    }
+    .navbar-underline {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: #25883c;
+    }
+    /* 기존 스타일 */
+    h1 { text-align: center; margin-bottom: 20px; color: #000; }
     iframe { width:100%; height:80vh; border: 1px solid #ccc; }
     .button-area { text-align: center; margin-top: 20px; }
     .button-area a.download-btn {
@@ -24,6 +92,27 @@
   </style>
 </head>
 <body>
+  <!-- 네비게이션 바 -->
+  <div class="navbar">
+    <div class="left">
+      <img src="/static/img/탄탄대로 로고.PNG" alt="로고" class="logo" />
+    </div>
+    <div class="center-menu">
+      <a href="/input">탄소 배출 입력</a>
+      <a href="/previous">기록 조회</a>
+      <a href="/matching">거래 매칭</a>
+    </div>
+    <div class="right login-area">
+      {% if user_email %}
+        <span class="user-email">{{ user_email }}</span>
+        <a href="/auth/logout" class="login-btn">로그아웃</a>
+      {% else %}
+        <a href="/auth/login" class="login-btn">로그인</a>
+      {% endif %}
+    </div>
+    <div class="navbar-underline"></div>
+  </div>
+
   <h1>탄소 배출 보고서</h1>
 
   <iframe src="/report/preview#zoom=page-width" frameborder="0"></iframe>
