@@ -120,6 +120,7 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
         temperature=0.7
     )
     feedback = res.choices[0].message.content.strip()
+    feedback = feedback.replace('\\n',' ')
 
     # PDF 작성
     c = canvas.Canvas(PDF_PATH, pagesize=A4)
@@ -192,7 +193,13 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     c.setFont(FONT_NAME, 12)
     c.drawString(margin + 10, feedback_title_y, "[GPT 피드백]")
     c.setFont(FONT_NAME, 10)
-    feedback_lines = textwrap.wrap(feedback, width=70)
+    feedback_lines = []
+    for para in feedback.splitlines():
+        wrapped = textwrap.wrap(para, width = 60)
+        if not wrapped:
+            feedback_lines.append("")
+        else:
+            feedback_lines.extend(wrapped)
     text_obj = c.beginText(margin + 10, feedback_title_y - 20)
     for line in feedback_lines:
         text_obj.textLine(line)
@@ -228,3 +235,4 @@ def generate_scope_graph(months, scope1_list, scope2_list):
     plt.tight_layout()
     plt.savefig(GRAPH_PATH_SCOPE)
     plt.close()
+
