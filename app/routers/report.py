@@ -97,13 +97,23 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     prompt = (
         f"기업명: {info.company}\n"
         f"분석 기간: {info.start_month}~{info.end_month}\n"
-        f"Scope1: {s1_sum} kgCO₂, Scope2: {s2_sum} kgCO₂, 총배출: {total_sum} kgCO₂, 남은: {remaining} kgCO₂\n"
-        "4문장 이내로 간단한 피드백 작성"
+        f"Scope1 배출량: {round(s1_sum, 2)} kgCO₂\n"
+        f"Scope2 배출량: {round(s2_sum, 2)} kgCO₂\n"
+        f"총 배출량: {round(total_sum, 2)} kgCO₂\n"
+        f"배출 허용량 대비 차이: {remaining} kgCO₂\n"
+        f"월별 총배출량: {dict(zip(months, [round(e, 2) for e in total_emissions]))}\n\n"
+        "위 정보를 바탕으로 다음 조건을 만족하는 6~8줄 이내의 간결한 전문가 피드백을 작성해 주세요:\n"
+        "1. 배출량 추이를 간단히 설명하고 가장 높은 달을 지목해 주세요.\n"
+        "2. 해당 월의 배출 증가 원인을 추정해 주세요 (계절, 설비, 물류, 이벤트 등 다양하게).\n"
+        "3. Scope1과 Scope2 중 주된 원인을 간단히 짚어 주세요.\n"
+        "4. 배출 감축을 위한 구체적 방안 1~2개 제안해 주세요.\n"
+        "5. 전체적으로 어떤 개선 방향이 필요한지 간결하게 마무리해 주세요.\n"
+        "각 문장은 줄바꿈을 위해 문장 끝에 `\\n`을 포함해 주세요."
     )
     res = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "당신은 탄소배출 보고서 분석 전문가입니다."},
+            {"role": "system", "content": "당신은 기업의 월별 탄소배출 데이터를 분석하고 감축 전략을 제안하는 지속가능경영 전문가입니다. 데이터를 기반으로 인사이트와 실천 가능한 조언을 제공해 주세요."},
             {"role": "user", "content": prompt}
         ],
         temperature=0.7
@@ -135,12 +145,16 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     c.drawImage(ImageReader(GRAPH_PATH_SCOPE), 50, 210, width=500, height=160)
 
     # GPT 피드백 삽입
-    c.drawString(50, 180, "[GPT 피드백]")
-    wrapped = textwrap.wrap(feedback_text, width=50)
+    c.drawString(50, 180, "[피드백]")
+    lines = feedback_text.replace('\\n', '\n').split('\n')
+
     text_obj = c.beginText(50, 165)
     text_obj.setFont(FONT_NAME, 10)
-    for line in wrapped:
-        text_obj.textLine(line)
+
+    for line in lines:
+        wrapped = textwrap.wrap(line.strip(), width=80)
+        for subline in wrapped:
+            text_obj.textLine(subline)
     c.drawText(text_obj)
 
     c.save()
