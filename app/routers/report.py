@@ -33,6 +33,7 @@ client = OpenAI(api_key=api_key)
 # 폰트 및 파일 경로 설정
 FONT_PATH = "app/static/fonts/NanumHumanBold.ttf"
 FONT_NAME = "NanumHumanBold"
+LOGO_PATH = "app/static/img/탄탄대로 로고 누끼.png"
 GRAPH_PATH_TOTAL = "app/static/img/graph_total.png"
 GRAPH_PATH_SCOPE = "app/static/img/graph_scope.png"
 PDF_PATH = "app/static/report.pdf"
@@ -122,43 +123,83 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
 
     # PDF 작성
     c = canvas.Canvas(PDF_PATH, pagesize=A4)
-    c.setFont(FONT_NAME, 14)
-    c.drawCentredString(300, 800, "탄소 배출 보고서")
+    width, height = A4
+    margin = 40
+
+    # 로고
+    logo_w, logo_h = 86, 25
+    logo_x = (width - logo_w) / 2
+    logo_y = height - logo_h - 20
+    c.drawImage(ImageReader(LOGO_PATH), logo_x, logo_y, width=logo_w, height=logo_h, mask='auto')
+
+    # 제목
+    c.setFont(FONT_NAME, 18)
+    title_y = logo_y - 15  # 아래로 이동
+    c.drawCentredString(width/2, title_y, "탄소 배출 보고서")
+
+    # 제목 하단 굵은 구분선
+    c.setLineWidth(2)
+    c.line(margin, title_y - 10, width - margin, title_y - 10)
+    c.setLineWidth(1)
+
+    # 기업 및 기간
+    info_y = title_y - 30
+    c.setFont(FONT_NAME, 12)
+    c.drawString(margin + 10, info_y, f"기업: {info.company}")
+    c.drawRightString(width - margin - 10, info_y, f"기간: {info.start_month} ~ {info.end_month}")
+    c.line(margin, info_y - 10, width - margin, info_y - 10)
+
+    # Scope별 요약 (세로 나열)
+    scope_y = info_y - 30
+    c.setFont(FONT_NAME, 12)
+    c.drawString(margin + 10, scope_y, "[Scope별 요약]")
     c.setFont(FONT_NAME, 10)
-    c.drawString(50, 770, f"기업: {info.company}")
-    c.drawString(300, 770, f"기간: {info.start_month}~{info.end_month}")
+    line_height = 20
+    c.drawString(margin + 30, scope_y - line_height, f"Scope 1: {round(s1_sum,2)} kgCO₂")
+    c.drawString(margin + 30, scope_y - line_height*2, f"Scope 2: {round(s2_sum,2)} kgCO₂")
+    c.drawString(margin + 30, scope_y - line_height*3, f"총배출: {round(total_sum,2)} kgCO₂")
+    c.line(margin, scope_y - line_height*4, width - margin, scope_y - line_height*4)
 
-    c.drawString(50, 740, "[Scope 요약]")
-    c.drawString(70, 725, f"Scope1: {round(s1_sum,2)} kgCO₂")
-    c.drawString(70, 710, f"Scope2: {round(s2_sum,2)} kgCO₂")
-    c.drawString(70, 695, f"총배출: {round(total_sum,2)} kgCO₂")
+    # 규제 초과 여부
+    exceed_y = scope_y - line_height*4 - 20
+    c.setFont(FONT_NAME, 12)
+    c.drawString(margin + 10, exceed_y, "[규제 초과 여부]")
+    c.setFont(FONT_NAME, 10)
+    status = f"기준초과: {abs(remaining)} kgCO₂" if remaining < 0 else f"기준미만: {remaining} kgCO₂"
+    c.drawString(margin + 30, exceed_y - line_height, status)
+    c.line(margin, exceed_y - line_height*2, width - margin, exceed_y - line_height*2)
 
-    c.drawString(50, 670, "[규제 여부]")
-    if remaining < 0:
-        c.drawString(70, 655, f"기준초과: {abs(remaining)} kgCO₂")
-    else:
-        c.drawString(70, 655, f"기준미만: {remaining} kgCO₂")
+    # 총배출 그래프
+    graph1_label_y = exceed_y - line_height*2 - 20
+    c.setFont(FONT_NAME, 12)
+    c.drawString(margin + 10, graph1_label_y, "[총배출 그래프]")
+    graph1_img_y = graph1_label_y - 20 - 160
+    c.drawImage(ImageReader(GRAPH_PATH_TOTAL), margin + 10, graph1_img_y, width=500, height=160)
 
-    c.drawString(50, 620, "[총배출 그래프]")
-    c.drawImage(ImageReader(GRAPH_PATH_TOTAL), 50, 410, width=500, height=160)
-    c.drawString(50, 390, "[Scope1 & 2 그래프]")
-    c.drawImage(ImageReader(GRAPH_PATH_SCOPE), 50, 210, width=500, height=160)
+    # Scope 1 & 2 그래프
+    graph2_label_y = graph1_img_y - 40
+    c.setFont(FONT_NAME, 12)
+    c.drawString(margin + 10, graph2_label_y, "[Scope 1 & 2 그래프]")
+    graph2_img_y = graph2_label_y - 20 - 160
+    c.drawImage(ImageReader(GRAPH_PATH_SCOPE), margin + 10, graph2_img_y, width=500, height=160)
 
-    # GPT 피드백 삽입
-    c.drawString(50, 180, "[피드백]")
-    lines = feedback_text.replace('\\n', '\n').split('\n')
+    # 피드백 전 구분선
+    sep_y = graph2_img_y - 10
+    c.line(margin, sep_y, width - margin, sep_y)
 
-    text_obj = c.beginText(50, 165)
-    text_obj.setFont(FONT_NAME, 10)
-
-    for line in lines:
-        wrapped = textwrap.wrap(line.strip(), width=80)
-        for subline in wrapped:
-            text_obj.textLine(subline)
+    # GPT 피드백
+    feedback_title_y = sep_y - 20
+    c.setFont(FONT_NAME, 12)
+    c.drawString(margin + 10, feedback_title_y, "[GPT 피드백]")
+    c.setFont(FONT_NAME, 10)
+    feedback_lines = textwrap.wrap(feedback, width=70)
+    text_obj = c.beginText(margin + 10, feedback_title_y - 20)
+    for line in feedback_lines:
+        text_obj.textLine(line)
     c.drawText(text_obj)
 
     c.save()
-    return {"message": "PDF generated successfully", "feedback": feedback_text}
+    return {"message": "PDF generated successfully", "feedback": feedback}
 
 
 def generate_total_graph(months, emissions):
