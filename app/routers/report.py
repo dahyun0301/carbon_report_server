@@ -50,9 +50,11 @@ def get_db():
 @router.get("/view", response_class=HTMLResponse)
 def report_page(request: Request):
     user_id = request.session.get("user_id")
+    user_email = request.session.get("user_email")
     if not user_id:
         raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
-    return templates.TemplateResponse("report.html", {"request": request})
+    return templates.TemplateResponse("report.html", {"request": request, "user_email": user_email})
+
 
 @router.get("/preview")
 def report_preview():
