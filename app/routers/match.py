@@ -1,4 +1,3 @@
-# app/routers/match.py
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -36,7 +35,7 @@ def match_page(request: Request, db: Session = Depends(get_db)):
         if first_record:
             company_name = first_record.company
         else:
-            company_name = "(미입력)"
+            company_name = "(미입력)"#
 
     records = db.query(EmissionRecord).filter(
         EmissionRecord.user_id == user_id,
