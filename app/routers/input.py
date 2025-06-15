@@ -1,5 +1,5 @@
-from fastapi import APIRouter, UploadFile, File, Form, Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi import APIRouter, UploadFile, File, Form, Request, Depends
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.db import SessionLocal
@@ -39,8 +39,8 @@ async def input_excel(
 ):
     user_id = request.session.get("user_id")
     if not user_id:
-        raise HTTPException(status_code=401, detail="로그인이 필요합니다.")
-    
+        return RedirectResponse(url="/auth/login", status_code=303)
+
     contents = await file.read()
     df = pd.read_excel(BytesIO(contents))
 
@@ -100,7 +100,6 @@ async def input_excel(
     
     db.commit()
 
-    # 필터링 및 결과 전송
     filtered = db.query(EmissionRecord).filter(
         EmissionRecord.user_id == user_id,
         EmissionRecord.month >= start_month,
@@ -124,6 +123,7 @@ async def input_excel(
                 "scope1": round(r.gasoline * 2.31 + r.natural_gas * 0.203, 2),
                 "scope2": round(r.electricity * 0.417 + r.district_heating * 110, 2)
             })
+
     user_email = request.session.get("user_email")
     return templates.TemplateResponse("input.html", {
         "request": request,
