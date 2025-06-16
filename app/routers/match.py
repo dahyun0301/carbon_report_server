@@ -30,7 +30,7 @@ def match_page(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="보고서 정보가 없습니다.")
 
 
-    # 회사명이 비어 있을 경우 EmissionRecord에서 유추
+
     company_name = report.company
     if not company_name:
         first_record = db.query(EmissionRecord).filter(EmissionRecord.user_id == user_id).first()
@@ -77,7 +77,7 @@ def match_page(request: Request, db: Session = Depends(get_db)):
             "difference": difference
         })
 
-    # 본인 제외
+
     excess_companies = [c for c in company_emissions if c["difference"] < 0 and c["id"] != user_id]
     remaining_companies = [c for c in company_emissions if c["difference"] > 0 and c["id"] != user_id]
 
