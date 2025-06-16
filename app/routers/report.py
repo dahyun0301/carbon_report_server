@@ -19,18 +19,18 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# 템플릿 및 라우터 설정
+
 router = APIRouter(prefix="/report", tags=["report"])
 templates = Jinja2Templates(directory="templates")
 
-# 환경변수 로드 및 OpenAI 클라이언트 초기화
+
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     raise RuntimeError("OPENAI_API_KEY 환경변수가 설정되어 있지 않습니다.")
 client = OpenAI(api_key=api_key)
 
-# 폰트 및 파일 경로 설정
+
 FONT_PATH = "app/static/fonts/NanumHumanBold.ttf"
 FONT_NAME = "NanumHumanBold"
 LOGO_PATH = "app/static/img/탄탄대로 로고 누끼.png"
@@ -96,7 +96,7 @@ def generate_pdf_report(request: Request, db: Session = Depends(get_db)):
     generate_total_graph(months, total_emissions)
     generate_scope_graph(months, scope1_list, scope2_list)
 
-    # GPT 피드백 요청
+
     prompt = (
         f"기업명: {info.company}\n"
         f"분석 기간: {info.start_month}~{info.end_month}\n"
