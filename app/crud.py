@@ -6,7 +6,7 @@ def get_user_by_email(db: Session, email: str):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(email=user.email, password=user.password, industry=user.industry)  # 암호화 없이 저장
+    db_user = models.User(email=user.email, password=user.password, industry=user.industry)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -17,6 +17,6 @@ def authenticate_user(db: Session, email: str, password: str):
     user = get_user_by_email(db, email)
     if not user:
         return None
-    if user.password != password:  # 평문 비교
+    if user.password != password:
         return None
     return user
