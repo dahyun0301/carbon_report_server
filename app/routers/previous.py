@@ -41,7 +41,7 @@ def run_previous_analysis(
     # 최신 보고서에 빈 company 저장
     db.add(ReportInfo(
         user_id=user_id,
-        company="",  # 기업명 생략
+        company="",  
         start_month=start_month,
         end_month=end_month,
         allowance=allowance
