@@ -9,10 +9,10 @@ from .. import crud
 from .. import schemas
 
 
-# 1) auth 관련 엔드포인트를 /auth 아래로 묶고, Swagger 문서 정리용 태그 추가
+
 router = APIRouter(prefix="/auth", tags=["auth"])
 
-# 2) uvicorn을 프로젝트 루트(myapp/)에서 실행할 때에도 안정적으로 찾도록 경로 수정
+
 templates = Jinja2Templates(directory="templates")
 
 
