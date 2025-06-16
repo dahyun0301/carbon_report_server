@@ -38,7 +38,7 @@ def run_previous_analysis(
         return RedirectResponse(url="/auth/login", status_code=303)
 
 
-    # 최신 보고서에 빈 company 저장
+
     db.add(ReportInfo(
         user_id=user_id,
         company="",  
