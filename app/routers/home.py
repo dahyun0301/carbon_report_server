@@ -1,11 +1,11 @@
-# "/home" 경로 GET TemplateResponse API 정의하기
+
 
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")  # 또는 "app/templates" (main.py와 동일하게)
+templates = Jinja2Templates(directory="templates")  
 
 @router.get("/")
 def home(request: Request):
